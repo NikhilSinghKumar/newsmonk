@@ -15,9 +15,9 @@ const App= () => {
   
   const [progress,setProgress] = useState(0)
   
-  useEffect(()=>{
-		setProgress(progress);
-	}, [progress])
+  // useEffect(()=>{
+	// 	setProgress(progress);
+	// }, [progress])
   
     return (
       <div>

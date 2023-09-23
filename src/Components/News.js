@@ -16,7 +16,6 @@ const News = (props) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-document.title = `${capitalizeFirstLetter(props.category)}- NewsMonk`;
 
   const updateNews = async () => {
     props.setProgress(10);
@@ -35,24 +34,17 @@ document.title = `${capitalizeFirstLetter(props.category)}- NewsMonk`;
 
 useEffect(() => {
   updateNews()
+  document.title = `${capitalizeFirstLetter(props.category)}- NewsMonk`;
   }
+  /* eslint-disable */
 , [])
 
 
-const handlePrevClick= async ()=>{
-  setPage(page-1);
-  updateNews()
-}
-
-const handleNextClick= async ()=>{
-  setPage(page+1);
-  updateNews()
-}
-
  const fetchMoreData =  async () => {
-    setPage(page+1);
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`; 
+    
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`; 
     // setState({loading: true})
+    setPage(page+1);
     let data = await fetch(url);
     let parsedData = await data.json();
     setArticles(articles.concat(parsedData.articles))
@@ -61,7 +53,7 @@ const handleNextClick= async ()=>{
   
   return (
       <>
-        <h2 className="text-center" style={{margin: '20px'}}>NewsMonk - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
+        <h2 className="text-center" style={{margin: '20px', marginTop: '85px'}}>NewsMonk - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
         {loading && <Spinner/>}
         <InfiniteScroll
           dataLength={articles.length}
@@ -70,7 +62,7 @@ const handleNextClick= async ()=>{
           loader={<Spinner/>}
         >
         <div className="container">
-        <div className='row'>
+        <div className='row my-2'>
         {articles.map((element, i)=>{
         return <div className='col-md-4' key={i}>
           <NewsItem title={element.title} description={element.description} newsUrl={element.url} imageUrl={element.urlToImage} author={element.author} date={element.publishedAt} source={element.source.name} />
